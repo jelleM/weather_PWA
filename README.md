@@ -1,6 +1,5 @@
-# react_thunk_template
-
-[![Build Status](https://travis-ci.org/icapps/react-thunk-template.svg?branch=master)](https://travis-ci.org/icapps/react-thunk-template)
+# Weather PWA Boilerplate
+Boilerplate project for a hands-on PWA session. 
 
 ## Development
 

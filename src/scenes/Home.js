@@ -1,49 +1,74 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { setUsername, logoutUser } from '../redux/user/actions';
-import { Button } from '../components';
+import format from 'date-fns/format';
+import { Button, WeatherIcon, Measurement, CityInput } from '../components';
 import './home.css';
+import { weatherService } from '../services';
 
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = { errors: [] };
+    this.state = {
+      weatherData: null,
+      lastSync: '',
+      city: 'Antwerp',
+      isError: false,
+      errorMessage: '',
+    };
+    this.timer = null;
   }
 
-  logout = e => {
-    this.props.logout(e.target.value);
-    this.props.history.replace('/auth');
+  componentDidMount() {
+    this.getWeather();
+  }
+
+  getWeather = async () => {
+    try {
+      const weatherData = await weatherService.getWeather(this.state.city);
+      this.setState({ weatherData, lastSync: format(new Date(), 'HH:mm:ss'), isError: false, errorMessage: '' });
+    } catch (err) {
+      this.setState({ isError: true, errorMessage:  err.errors[0].meta.data ? err.errors[0].meta.data.message : 'No network' });
+    }
+  };
+
+  handleCityChange = async event => {
+    await this.setState({ city: event.target.value });
+    clearTimeout(this.timer);
+    this.timer = setTimeout(this.getWeather, 500);
   };
 
   render() {
+    const { weatherData, lastSync, city, isError, errorMessage } = this.state;
     return (
-      <div className='app'>
-        <p className='app-intro'>
-          Do you want to change your username:&nbsp;&nbsp;&nbsp;
-          <input type='text' onChange={e => this.props.changeUsername(e.target.value)} value={this.props.username} />
-        </p>
-        <p className='app-link'>{this.props.username.length >= 3 && <Button link='/jokes'>Let me laugh</Button>}</p>
-        <p className='app-link'>
-          <Button theme='secondary' onClickCallback={this.logout}>
-            Logout
-          </Button>
-        </p>
+      <div className="app">
+        {weatherData && (
+          <div className="weather">
+            <p className="last-sync">{`Last Sync: ${lastSync}`}</p>
+            <img onClick={this.getWeather} className="sync" src={require('../assets/icons/sync.svg')} alt="sync" />
+            <WeatherIcon icon={weatherData.weather[0].icon} />
+            <div className="main-info">
+              <CityInput value={city} onChange={this.handleCityChange} isError={isError} errorMessage={errorMessage} />
+              <Measurement value={weatherData.main.temp} desc="°C" isLarge />
+              <h2>{weatherData.weather[0].description}</h2>
+            </div>
+            <div className="extra-info">
+              <div className="info-group">
+                <p className="info-desc">Min.</p>
+                <Measurement value={weatherData.main.temp_min} desc="°C" />
+              </div>
+              <div className="info-group">
+                <p className="info-desc">Max.</p>
+                <Measurement value={weatherData.main.temp_max} desc="°C" />
+              </div>
+              <div className="info-group">
+                <p className="info-desc">Humidity</p>
+                <Measurement value={weatherData.main.humidity} desc="%" />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    username : state.user.username,
-  };
-};
-
-function mapDispatchToProps(dispatch) {
-  return {
-    changeUsername : value => dispatch(setUsername(value)),
-    logout         : () => dispatch(logoutUser()),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;

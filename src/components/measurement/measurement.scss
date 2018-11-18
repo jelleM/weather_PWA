@@ -1,0 +1,25 @@
+
+.measurement{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &-value {
+    font-size: 2rem;
+    font-weight: 800;
+  }
+  &-desc {
+    margin-left: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #686767;
+  }
+
+  .value-large {
+    font-size: 4rem;
+  }
+  .desc-large {
+    margin-left: 0.5rem;
+    font-size: 2.5rem;
+  }
+}

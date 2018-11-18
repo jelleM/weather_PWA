@@ -1,0 +1,29 @@
+.cityInput {
+  margin-bottom: 3rem;
+
+  .input {
+    padding: 1rem;
+    font-size: 2rem;
+    border: none;
+    border-bottom: 2px solid #e0e0e0;
+
+    &:focus {
+      border-bottom: 2px solid #6a6969;
+      outline: transparent;
+    }
+  }
+
+  .error {
+    border-bottom: 2px solid #ffb8b8;
+
+    &:focus {
+      border-bottom: 2px solid #f83535;
+    }
+  }
+
+  .error-message {
+    margin: 0.5rem 0 0 0;
+    color: #ff0025
+  }
+
+}

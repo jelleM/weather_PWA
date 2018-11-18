@@ -1,4 +1,6 @@
 import Button from './button/Button';
-import Navbar from './navbar/NavBar';
+import WeatherIcon from './weatherIcon/WeatherIcon';
+import Measurement from './measurement/Measurement';
+import CityInput from './cityInput/CityInput';
 
-export { Button, Navbar };
+export { Button, WeatherIcon, Measurement, CityInput };

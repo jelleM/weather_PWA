@@ -1,13 +1,16 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700');
+
 html,
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 10px;
+  color: #1d1d1d;
 }
 
 body {
   min-width: 100vw;
   min-height: 100vh;
   font-size: 1.4rem;
-}
+  background: linear-gradient(#28b1f9, #1d4c97);}
