@@ -3,7 +3,7 @@
   "description": "Weather PWA boilerplate",
   "version": "0.1.0",
   "dependencies": {
-    "axios": "~0.18.0",
+    "axios": "~0.21.1",
     "core-js": "2.5.7",
     "date-fns": "^1.29.0",
     "node-sass-chokidar": "~0.0.3",
